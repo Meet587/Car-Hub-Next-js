@@ -1,7 +1,7 @@
 'use client'
 
 import { CarProps } from "@/types"
-import { calculateCarRent } from "@/utils"
+import { calculateCarRent, generateCarImageUrl } from "@/utils"
 import Image from "next/image"
 import CustomButtons from './CustomButtons';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ interface CarCardProps {
 
 const CarCard = ({ car }: CarCardProps) => {
   const { city_mpg, year, make, model, transmission, drive } = car
-  const[isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const carRent = calculateCarRent(city_mpg, year)
   return (
@@ -30,7 +30,7 @@ const CarCard = ({ car }: CarCardProps) => {
         <span className='self-end text-[14px] font-medium'>/day </span>
       </p>
       <div className='relative w-full h-40 object-contain my-3'>
-        <Image src='/hero.png' alt='car model' fill priority className='object-contain' />
+        <Image src={generateCarImageUrl(car)} alt='car model' fill priority className='object-contain' />
       </div>
       <div className='relative flex w-full mt-2'>
         <div className='flex group-hover:invisible w-full justify-between text-gray'>
@@ -48,16 +48,16 @@ const CarCard = ({ car }: CarCardProps) => {
           </div>
         </div>
         <div className='car-card__btn-container'>
-          <CustomButtons title='View More' 
-           containerStyles="w-full rounded-full py-[16px] bg-primary-blue"
-           textStyle='text-white text-[14px] leading-[16px] font-bold'
-           rightIcon='/right-arrow.svg'
-           handleClick ={()=>setIsOpen(true)}
+          <CustomButtons title='View More'
+            containerStyles="w-full rounded-full py-[16px] bg-primary-blue"
+            textStyle='text-white text-[14px] leading-[16px] font-bold'
+            rightIcon='/right-arrow.svg'
+            handleClick={() => setIsOpen(true)}
           />
         </div>
       </div>
 
-      <CarDetails isOpen={isOpen} closeModel={()=>setIsOpen(false)} car={car} />
+      <CarDetails isOpen={isOpen} closeModel={() => setIsOpen(false)} car={car} />
     </div>
   )
 }
